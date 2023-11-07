@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <div id="encryptor">
+        <main id="encryptor__main">
+
+            <form action="/encryptor/encrypt" method="post">
+
+                {{#if failure}} <div id="encryptor__main-form__failure"><p>{{failure}}</p></div> {{/if}}
+
+                <div class="encryptor__main-form__element">
+                    <label for="encryption_type_id">Tipo de Criptografia</label>
+
+                    <select name="encryption_type" id="encryption_type_id">
+                    </select>
+
+                    <script type="text/javascript">
+
+                        const encryption_type_select = document.getElementById('encryption_type_id');
+
+                        const encryption_types = 
+                        [
+                            'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'sha3-224', 'sha3-256', 'sha3-384', 'sha3-512'
+                        ];
+
+                        for (let index = 0; index < encryption_types.length; index++)
+                        {
+
+                            const i     =                     index + 1;
+                            const value = i < 10 ? `et0${i}` : `et${i}`;
+
+                            encryption_type_select.options.add(new Option(encryption_types[index], value));
+
+                        };
+
+                    </script>
+                </div>
+
+                <div class="encryptor__main-form__element">
+                    <label for="text_field_id">Texto</label>
+                    <input type="text" name="text" id="text_field_id" placeholder="Texto...">
+                </div>
+
+                <button type="submit">Criptografar</button>
+
+            </form>
+
+        </main>
+    </div>
+
+    {{#if encrypted_text}}
+
+        <div id="result_modal">
+            <div id="result_modal__center">
+
+                <div id="result_modal__center-top">
+                    <span>Resultado</span><button><i class="fa-solid fa-xmark" id="result_modal__center-top__close_modal"></i></button>
+                </div>
+                
+                <main id="result_modal__center-main"><p>{{encrypted_text}}</p></main>
+
+            </div>
+
+            <script type="text/javascript">
+            
+                const result_modal = document.getElementById('result_modal');
+
+                result_modal.addEventListener('click', (event) => 
+                {
+
+                    if (event.target.id == 'result_modal' || event.target.id == 'result_modal__center-top__close_modal') 
+                    {
+                    
+                        result_modal.style.display = 'none';
+                    
+                    }
+
+                });
+            
+            </script>
+        </div>
+
+    {{/if}}
+    
+</body>
+</html>
